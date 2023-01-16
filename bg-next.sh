@@ -1,19 +1,19 @@
 #!/bin/bash
 
-#HELP
-
-
 FILE=${FILE:-/tmp/wallpaper}
+
 colors_name=("red-blood" "red-crimson" "red-communist" "red-persian" "salmon" "purple"
 "purple-dark" "blue-bluebell" "blue-royal" "blue-tomb" "blue-petrichor" "green-neon"
 "green" "green-dark" "green-brown" "green-yellow" "gold-antique" "yellow"
 "sunglow" "orange-light" "orange" "orange-red" "brown-light" "brown"
 "black" "gray-dark" "gray-light" "white" "gray-charcoal" )
+
 colors_hex=("660000" "990000" "cc0000" "cc3333" "ea4c88" "993399"
 "663399" "333399" "0066cc" "0099cc" "66cccc" "77cc33" 
 "669900" "336600" "666600" "999900" "cccc33" "ffff00" 
 "ffcc33" "ff9900" "ff6600" "cc6633" "996633" "663300" 
 "000000" "999999" "cccccc" "ffffff" "424153" )
+
 colors_length=${#colors_name[@]}
 
 Help()
@@ -28,8 +28,7 @@ Help()
         if [ $(($color % 5)) == 4 ]; then
             printf "\n\t"
         fi
-    done
-    
+    done    
 
     printf "\n\n\tUse bg-next -s or --save to copy the current wallpaper to your pictures for later"
 
@@ -74,12 +73,11 @@ for arg in "$@"; do
 done
 
 
-
 RESOLUTION=$(xdpyinfo | grep -oP 'dimensions:\s+\K\S+')
 
 PURITY=110
 CATEGORIES=111
-API=
+API=<YOUR API KEY HERE>
 API_URL="https://wallhaven.cc/api/v1/search?api_key=$API"
 
 if [ -n "$QUERY" ]; then
@@ -95,6 +93,9 @@ API_URL+="&categories=$CATEGORIES&purity=$PURITY&resolutions=$RESOLUTION&sorting
 DOWNLOAD=$(curl -L "$API_URL" | jq -r '.data[0].path')
 curl -L "$DOWNLOAD" -o "$FILE"
 
+# Nitrogen
 nitrogen --set-auto $FILE
+
+# Pywal -- comment out Nitrogen if using this
 #wal -c
 #wal -q --saturate 0.3 -i $FILE
